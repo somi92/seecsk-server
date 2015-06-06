@@ -41,6 +41,7 @@ public class KlijentNit extends Thread {
             
             while(running) {
                 ZahtevObjekat zo = (ZahtevObjekat) in.readObject();
+                
             }
             
         } catch (IOException ex) {

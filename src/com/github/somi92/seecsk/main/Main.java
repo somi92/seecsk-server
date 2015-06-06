@@ -5,6 +5,9 @@
  */
 package com.github.somi92.seecsk.main;
 
+import com.github.somi92.seecsk.gui.FServer;
+import com.github.somi92.sqldbb.broker.DBBroker;
+
 /**
  *
  * @author milos
@@ -13,5 +16,10 @@ public class Main {
     
     public static void main(String[] args) {
         
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FServer().setVisible(true);
+            }
+        });
     }
 }

@@ -22,7 +22,7 @@ public abstract class ApstraktnaSistemskaOperacija {
         dbbroker = new DBBroker();
     }
     
-    public void izvrsiSistemskuOperaciju() throws Exception {
+    public synchronized void izvrsiSistemskuOperaciju() throws Exception {
         try {
             
             otvoriBazuPodataka();
@@ -34,12 +34,12 @@ public abstract class ApstraktnaSistemskaOperacija {
             potvrdiDBTransakciju();
             
         } catch (ValidacijaException ex) {
-            throw new Exception(ex.getMessage());
+            throw new ValidacijaException(ex.getMessage());
         } catch (PreduslovException ex) {
-            throw new Exception(ex.getMessage());
+            throw new PreduslovException(ex.getMessage());
         } catch (SOException ex) {
             ponistiDBTransakciju();
-            throw new Exception(ex.getMessage());
+            throw new SOException(ex.getMessage());
         } finally {
             zatvoriBazuPodataka();
         }

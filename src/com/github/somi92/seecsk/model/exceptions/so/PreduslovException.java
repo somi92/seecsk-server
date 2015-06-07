@@ -11,4 +11,7 @@ package com.github.somi92.seecsk.model.exceptions.so;
  */
 public class PreduslovException extends Exception {
     
+    public PreduslovException(String message) {
+        super(message);
+    }
 }

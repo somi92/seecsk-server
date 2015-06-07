@@ -11,4 +11,7 @@ package com.github.somi92.seecsk.model.exceptions.so;
  */
 public class SOException extends Exception {
     
+    public SOException(String message) {
+        super(message);
+    }
 }

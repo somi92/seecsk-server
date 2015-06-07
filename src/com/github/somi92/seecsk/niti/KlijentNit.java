@@ -5,16 +5,16 @@
  */
 package com.github.somi92.seecsk.niti;
 
+import com.github.somi92.seecsk.domain.Clan;
+import com.github.somi92.seecsk.model.controllers.KontrolerPL;
+import com.github.somi92.seecsk.transfer.OdgovorObjekat;
 import com.github.somi92.seecsk.transfer.ZahtevObjekat;
-import java.io.BufferedReader;
+import com.github.somi92.seecsk.util.Ref;
+import com.github.somi92.seecsk.util.SistemskeOperacije;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -59,5 +59,55 @@ public class KlijentNit extends Thread {
         }
     }
     
+    private void obradiZahtev(ZahtevObjekat zo) {
+        OdgovorObjekat oo = new OdgovorObjekat();
+        SistemskeOperacije so = zo.getSistemskaOperacija();
+        switch(so) {
+            
+            case SO_KREIRAJ_CLANA:
+                Ref<Clan> ref = zo.getParametar();
+                KontrolerPL.kreirajClana(ref);
+            break;
+                
+            case SO_KREIRAJ_TRENING:
+            break;
+            
+            case SO_OBRISI_CLANA:
+            break;
+                
+            case SO_OBRISI_TRENING:
+            break;
+                
+            case SO_OBRISI_UPLATE:
+            break;
+                
+            case SO_PRONADJI_CLANARINE:
+            break;
+                
+            case SO_PRONADJI_CLANOVE:
+            break;
+                
+            case SO_PRONADJI_TRENINGE:
+            break;
+                
+            case SO_UCITAJ_TRENING:
+            break;
+                
+            case SO_VRATI_LISTU_CLANOVA:
+            break;
+                
+            case SO_VRATI_LISTU_GRUPA:
+            break;
+                
+            case SO_ZAPAMTI_CLANA:
+            break;
+                
+            case SO_ZAPAMTI_CLANARINE:
+            break;
+                
+            case SO_ZAPAMTI_TRENING:
+            break;
+        }
+    }
     
 }

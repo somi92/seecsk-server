@@ -41,7 +41,7 @@ public class SOObrisiClana extends ApstraktnaSistemskaOperacija {
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Greska -> "+this.getClass().getName()+": "+ex.getMessage());
-            throw new SOException();
+            throw new SOException("Greska -> "+this.getClass().getName()+": "+ex.getMessage());
         }
     }
 

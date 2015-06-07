@@ -11,4 +11,7 @@ package com.github.somi92.seecsk.model.exceptions.so;
  */
 public class ValidacijaException extends Exception {
     
+    public ValidacijaException(String message) {
+        super(message);
+    }
 }

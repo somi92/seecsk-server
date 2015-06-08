@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.somi92.seecsk.main;
+package com.github.somi92.seecsk.mainserver;
 
 import com.github.somi92.seecsk.gui.FServer;
 import com.github.somi92.sqldbb.broker.DBBroker;

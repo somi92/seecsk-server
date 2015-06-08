@@ -8,6 +8,7 @@ package com.github.somi92.seecsk.niti;
 import com.github.somi92.seecsk.gui.FServer;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,10 @@ public class ServerNit extends Thread {
         try {
             serverSocket = new ServerSocket(port);
             while(true) {
-                executor.execute(new KlijentNit(this, serverSocket.accept()));
+                Socket socket = serverSocket.accept();
+                KlijentNit kn = new KlijentNit(this);
+                kn.postaviSocket(socket);
+                executor.execute(kn);
             }
         } catch (SocketException ex) {
             ex.printStackTrace();

@@ -35,6 +35,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,19 +52,20 @@ public class KlijentNit extends Thread {
     private boolean verified;
     private String userName;
     
-    public KlijentNit(ServerNit parent, Socket socket) {
+    public KlijentNit(ServerNit parent) {
         this.parent = parent;
-        this.socket = socket;
         this.running = true;
         this.verified = false;
+            
     }
     
     @Override
     public void run() {
         try {
             
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
+//            in = new ObjectInputStream(socket.getInputStream());
+//            out = new ObjectOutputStream(socket.getOutputStream());
+//            out.flush();
             
             do {
                 ZahtevObjekat zo = (ZahtevObjekat) in.readObject();
@@ -213,15 +216,16 @@ public class KlijentNit extends Thread {
                     Ref<Zaposleni> zaposleni = zo.getParametar();
                     KontrolerPL.pronadjiAdministratora(zaposleni);
                     oo.setPodaci(zaposleni);
-                    oo.setStatusOperacije(0);
                     if(zaposleni.get()!=null) {
                         verified = true;
                         userName = zaposleni.get().getKorisnickoIme();
+                        oo.setStatusOperacije(0);
                         ServerNit.dodajKlijenta(this);
                     } else {
+                        oo.setStatusOperacije(-1);
                         verified = false;
                         userName = "!nepoznat_korisnik!";
-                        ServerNit.obrisiKlijenta(this);
+//                        ServerNit.obrisiKlijenta(this);
                     }
                     break;
             }
@@ -263,6 +267,16 @@ public class KlijentNit extends Thread {
     @Override
     public String toString() {
         return userName;
+    }
+
+    void postaviSocket(Socket socket) {
+        try {
+            this.socket = socket;
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     

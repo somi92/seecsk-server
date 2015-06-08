@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -315,7 +316,7 @@ public class FServer extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Evidencija operacija"));
 
         jtxtLog.setColumns(20);
-        jtxtLog.setFont(new java.awt.Font("DejaVu Sans", 0, 8)); // NOI18N
+        jtxtLog.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         jtxtLog.setLineWrap(true);
         jtxtLog.setRows(5);
         jtxtLog.setWrapStyleWord(true);
@@ -502,5 +503,6 @@ public class FServer extends javax.swing.JFrame {
     public void azurirajEvidenciju(String text) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         jtxtLog.append(sdf.format(Calendar.getInstance().getTime())+text+'\n');
+        jtxtLog.setCaretPosition(jtxtLog.getDocument().getLength());
     }
 }

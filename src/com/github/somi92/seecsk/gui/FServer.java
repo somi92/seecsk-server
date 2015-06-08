@@ -8,6 +8,8 @@ package com.github.somi92.seecsk.gui;
 import com.github.somi92.seecsk.niti.ServerNit;
 import com.github.somi92.seecsk.util.Config;
 import com.github.somi92.seecsk.util.Constants;
+import java.awt.Color;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Date;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +36,8 @@ public class FServer extends javax.swing.JFrame {
         initComponents();
         jbtnOdjavi.setEnabled(false);
         jlstKlijenti.setEnabled(false);
+        jlblStatus.setText("Server nije pokrenut.");
+        jlblStatus.setForeground(Color.red);
     }
 
     /**
@@ -74,6 +79,7 @@ public class FServer extends javax.swing.JFrame {
         jlblURL = new javax.swing.JLabel();
         jlblImeBaze = new javax.swing.JLabel();
         jlblKorisnik = new javax.swing.JLabel();
+        jlblStatus = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -86,6 +92,11 @@ public class FServer extends javax.swing.JFrame {
 
         jbtnZaustavi.setText("Zaustavi server");
         jbtnZaustavi.setEnabled(false);
+        jbtnZaustavi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnZaustaviActionPerformed(evt);
+            }
+        });
 
         jbtnPokreni.setText("Pokreni server");
         jbtnPokreni.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +226,9 @@ public class FServer extends javax.swing.JFrame {
 
         jlblKorisnik.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
+        jlblStatus.setFont(new java.awt.Font("DejaVu Sans", 1, 18)); // NOI18N
+        jlblStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -222,6 +236,7 @@ public class FServer extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
@@ -260,6 +275,8 @@ public class FServer extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jlblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jlblIPServer))
@@ -291,7 +308,7 @@ public class FServer extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jlblKorisnik))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Evidencija operacija"));
@@ -313,7 +330,7 @@ public class FServer extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -334,7 +351,7 @@ public class FServer extends javax.swing.JFrame {
             .addGroup(jpnlMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -369,7 +386,33 @@ public class FServer extends javax.swing.JFrame {
         fparams = new FParams(this, true);
         fparams.setVisible(true);
         pokreniServer();
+        jlblStatus.setText("Server je pokrenut.");
+        jlblStatus.setForeground(Color.green);
+        jbtnPokreni.setEnabled(false);
+        jbtnZaustavi.setEnabled(true);
     }//GEN-LAST:event_jbtnPokreniActionPerformed
+
+    private void jbtnZaustaviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnZaustaviActionPerformed
+        try {
+            serverNit.zaustaviServer();
+            jbtnPokreni.setEnabled(true);
+            jbtnZaustavi.setEnabled(false);
+            jlblStatus.setText("Server nije pokrenut.");
+            jlblStatus.setForeground(Color.red);
+            
+            jlblIPServer.setText("");
+            jlblPortServer.setText("");
+            jlblDatumServer.setText("");
+            jlblServerBaze.setText("");
+            jlblDriver.setText("");
+            jlblURL.setText("");
+            jlblImeBaze.setText("");
+            jlblKorisnik.setText("");
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jbtnZaustaviActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -402,6 +445,7 @@ public class FServer extends javax.swing.JFrame {
     private javax.swing.JLabel jlblPortServer;
     private javax.swing.JLabel jlblPrijava;
     private javax.swing.JLabel jlblServerBaze;
+    private javax.swing.JLabel jlblStatus;
     private javax.swing.JLabel jlblURL;
     private javax.swing.JList jlstKlijenti;
     private javax.swing.JPanel jpnlMain;
@@ -434,6 +478,9 @@ public class FServer extends javax.swing.JFrame {
                     Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_PORT));
             jlblImeBaze.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_NAME));
             jlblKorisnik.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_USER));
+            
+            serverNit = new ServerNit(Integer.parseInt(Config.vratiInstancu().vratiVrednost(Constants.ServerConfigKeys.SERVER_PORT)));
+            serverNit.start();
             
         } catch (UnknownHostException ex) {
             ex.printStackTrace();

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +25,7 @@ public class ServerNit extends Thread {
     private int port;
     private ServerSocket serverSocket;
     private ExecutorService executor;
-    private List<KlijentNit> klijenti;
+    private static List<KlijentNit> klijenti;
     
     public ServerNit(int port) {
         this.port = port;
@@ -39,6 +42,7 @@ public class ServerNit extends Thread {
             }
         } catch (SocketException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Server je zaustavljen.");
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (Exception ex) {
@@ -48,5 +52,7 @@ public class ServerNit extends Thread {
         }
     }
     
-    
+    public void zaustaviServer() throws IOException {
+        serverSocket.close();
+    }
 }

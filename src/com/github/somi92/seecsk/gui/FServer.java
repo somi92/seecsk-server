@@ -17,7 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -40,6 +43,7 @@ public class FServer extends javax.swing.JFrame {
         jlblStatus.setText("Server nije pokrenut.");
         jlblStatus.setForeground(Color.red);
         jtxtLog.setText("");
+        initForm();
     }
 
     /**
@@ -143,8 +147,10 @@ public class FServer extends javax.swing.JFrame {
         jLabel3.setText("IP adresa i port:");
 
         jlblIPPort.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblIPPort.setText(" ");
 
         jlblPrijava.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblPrijava.setText(" ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -182,11 +188,11 @@ public class FServer extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jlblPrijava)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlblPrijava))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jlblIPPort))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -498,11 +504,37 @@ public class FServer extends javax.swing.JFrame {
             lm.addElement(kn);
         }
         jlstKlijenti.setModel(lm);
+        if(klijenti.size()>0) {
+            jlstKlijenti.setEnabled(true);
+        } else {
+            jlstKlijenti.setEnabled(false);
+        }
     }
     
     public void azurirajEvidenciju(String text) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         jtxtLog.append(sdf.format(Calendar.getInstance().getTime())+text+'\n');
         jtxtLog.setCaretPosition(jtxtLog.getDocument().getLength());
+        jlstKlijenti.clearSelection();
+        jlblIPPort.setText("");
+        jlblPrijava.setText("");
+    }
+
+    private void initForm() {
+        jlstKlijenti.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(!e.getValueIsAdjusting()) {
+                    KlijentNit kn = (KlijentNit) jlstKlijenti.getSelectedValue();
+                    if(kn==null) {
+                        return;
+                    }
+                    jlblPrijava.setText(new SimpleDateFormat("dd.MM.yyyy. HH:mm:ss").
+                            format(kn.getDatumPrijavljivanja()));
+                    jlblIPPort.setText(kn.getIpPort());
+                }
+            }
+        });
     }
 }

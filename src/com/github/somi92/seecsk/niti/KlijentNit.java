@@ -33,10 +33,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -51,6 +50,8 @@ public class KlijentNit extends Thread {
     private boolean running;
     private boolean verified;
     private String userName;
+    private Date datumPrijavljivanja;
+    private String ipPort;
     
     public KlijentNit(ServerNit parent) {
         this.parent = parent;
@@ -81,6 +82,7 @@ public class KlijentNit extends Thread {
             
         } catch (IOException ex) {
             ex.printStackTrace();
+            System.out.println(ex.getMessage());
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } finally {
@@ -91,6 +93,7 @@ public class KlijentNit extends Thread {
                 socket.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -234,6 +237,7 @@ public class KlijentNit extends Thread {
             oo.setGreska(ex);
             oo.setPodaci(null);
             oo.setStatusOperacije(-1);
+            System.out.println(ex.getMessage());
         }
         return oo;
     }
@@ -272,11 +276,24 @@ public class KlijentNit extends Thread {
     void postaviSocket(Socket socket) {
         try {
             this.socket = socket;
+            ipPort = socket.getInetAddress().toString()+":"+socket.getPort();
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public Date getDatumPrijavljivanja() {
+        return datumPrijavljivanja;
+    }
+
+    public void setDatumPrijavljivanja(Date datumPrijavljivanja) {
+        this.datumPrijavljivanja = datumPrijavljivanja;
+    }
+
+    public String getIpPort() {
+        return ipPort;
     }
     
     

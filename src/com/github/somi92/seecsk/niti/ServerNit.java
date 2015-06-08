@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,6 +44,7 @@ public class ServerNit extends Thread {
                 Socket socket = serverSocket.accept();
                 KlijentNit kn = new KlijentNit(this);
                 kn.postaviSocket(socket);
+                kn.setDatumPrijavljivanja(Calendar.getInstance().getTime());
                 executor.execute(kn);
             }
         } catch (SocketException ex) {

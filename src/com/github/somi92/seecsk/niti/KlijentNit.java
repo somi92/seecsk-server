@@ -220,7 +220,7 @@ public class KlijentNit extends Thread {
                         ServerNit.dodajKlijenta(this);
                     } else {
                         verified = false;
-                        userName = "";
+                        userName = "!nepoznat_korisnik!";
                         ServerNit.obrisiKlijenta(this);
                     }
                     break;

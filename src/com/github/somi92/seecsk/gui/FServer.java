@@ -5,12 +5,27 @@
  */
 package com.github.somi92.seecsk.gui;
 
+import com.github.somi92.seecsk.niti.ServerNit;
+import com.github.somi92.seecsk.util.Config;
+import com.github.somi92.seecsk.util.Constants;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author milos
  */
 public class FServer extends javax.swing.JFrame {
 
+    private int port;
+    private ServerNit serverNit;
+    private FParams fparams;
+    
     /**
      * Creates new form FServer
      */
@@ -64,6 +79,7 @@ public class FServer extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SEECSK - server");
         setResizable(false);
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -72,6 +88,11 @@ public class FServer extends javax.swing.JFrame {
         jbtnZaustavi.setEnabled(false);
 
         jbtnPokreni.setText("Pokreni server");
+        jbtnPokreni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPokreniActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -178,21 +199,21 @@ public class FServer extends javax.swing.JFrame {
 
         jLabel11.setText("Korisnik baze podataka:");
 
-        jlblIPServer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblIPServer.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblPortServer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblPortServer.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblDatumServer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblDatumServer.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblServerBaze.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblServerBaze.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblDriver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblDriver.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblURL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblURL.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblImeBaze.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblImeBaze.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        jlblKorisnik.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblKorisnik.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -344,6 +365,12 @@ public class FServer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtnPokreniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPokreniActionPerformed
+        fparams = new FParams(this, true);
+        fparams.setVisible(true);
+        pokreniServer();
+    }//GEN-LAST:event_jbtnPokreniActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -379,4 +406,37 @@ public class FServer extends javax.swing.JFrame {
     private javax.swing.JList jlstKlijenti;
     private javax.swing.JPanel jpnlMain;
     // End of variables declaration//GEN-END:variables
+
+    private void pokreniServer() {
+        try {
+            jlblIPServer.setText(InetAddress.getLocalHost().toString());
+            jlblPortServer.setText(Config.vratiInstancu().vratiVrednost(Constants.ServerConfigKeys.SERVER_PORT));
+            jlblDatumServer.setText(new SimpleDateFormat("dd.MM.yyyy. HH:mm:ss").format(Calendar.getInstance().getTime()));
+            
+            String db = Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_SERVER);
+            String dbServer = "";
+            if(db.equals("mysql")) {
+                dbServer = "My SQL";
+            }
+            if(db.equals("access")) {
+                dbServer = "MS Access";
+            }
+            if(db.equals("sqlserver")) {
+                dbServer = "SQL Server";
+            }
+            if(db.equals("oracle")) {
+                dbServer = "Oracle Database";
+            }
+            jlblServerBaze.setText(dbServer);
+            
+            jlblDriver.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_DRIVER));
+            jlblURL.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_HOST)+":"+
+                    Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_PORT));
+            jlblImeBaze.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_NAME));
+            jlblKorisnik.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_USER));
+            
+        } catch (UnknownHostException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

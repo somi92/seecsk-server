@@ -45,11 +45,11 @@ public abstract class ApstraktnaSistemskaOperacija {
         }
     }
     
-    private void otvoriBazuPodataka() {
+    private void otvoriBazuPodataka() throws Exception {
         dbbroker.openDatabaseConnection();
     }
     
-    private void zatvoriBazuPodataka() {
+    private void zatvoriBazuPodataka() throws Exception {
         dbbroker.closeDatabaseConnection();
     }
     

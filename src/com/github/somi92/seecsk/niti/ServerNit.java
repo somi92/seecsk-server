@@ -5,6 +5,7 @@
  */
 package com.github.somi92.seecsk.niti;
 
+import com.github.somi92.seecsk.gui.FServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,12 +21,14 @@ import javax.swing.JOptionPane;
  */
 public class ServerNit extends Thread {
 
+    private static FServer parent;
     private int port;
     private ServerSocket serverSocket;
     private ExecutorService executor;
     private static List<KlijentNit> klijenti;
     
-    public ServerNit(int port) {
+    public ServerNit(FServer parent, int port) {
+        this.parent = parent;
         this.port = port;
         executor = Executors.newFixedThreadPool(5);
         klijenti = new ArrayList<>();
@@ -38,7 +39,7 @@ public class ServerNit extends Thread {
         try {
             serverSocket = new ServerSocket(port);
             while(true) {
-                executor.execute(new KlijentNit(serverSocket.accept()));
+                executor.execute(new KlijentNit(this, serverSocket.accept()));
             }
         } catch (SocketException ex) {
             ex.printStackTrace();
@@ -54,5 +55,21 @@ public class ServerNit extends Thread {
     
     public void zaustaviServer() throws IOException {
         serverSocket.close();
+    }
+    
+    public synchronized static void dodajKlijenta(KlijentNit kn) {
+        klijenti.add(kn);
+        parent.azurirajListu(klijenti);
+        parent.azurirajEvidenciju("<"+kn+"> prijavljen na sistem");
+    }
+    
+    public synchronized static void obrisiKlijenta(KlijentNit kn) {
+        klijenti.remove(kn);
+        parent.azurirajListu(klijenti);
+        parent.azurirajEvidenciju("<"+kn+"> odbačen");
+    }
+    
+    public synchronized static void azurirajEvidenciju(String text) {
+        parent.azurirajEvidenciju(text);
     }
 }

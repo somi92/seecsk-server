@@ -10,6 +10,7 @@ import com.github.somi92.seecsk.domain.Clanarina;
 import com.github.somi92.seecsk.domain.Grupa;
 import com.github.somi92.seecsk.domain.Trening;
 import com.github.somi92.seecsk.domain.Uplata;
+import com.github.somi92.seecsk.domain.Zaposleni;
 import com.github.somi92.seecsk.model.operations.ApstraktnaSistemskaOperacija;
 import com.github.somi92.seecsk.util.Ref;
 import com.github.somi92.seecsk.model.operations.clan.SOKreirajClana;
@@ -25,6 +26,7 @@ import com.github.somi92.seecsk.model.operations.trening.SOObrisiTrening;
 import com.github.somi92.seecsk.model.operations.trening.SOPronadjiTreninge;
 import com.github.somi92.seecsk.model.operations.trening.SOUcitajTrening;
 import com.github.somi92.seecsk.model.operations.trening.SOZapamtiTrening;
+import com.github.somi92.seecsk.model.operations.zaposleni.SOPronadjiAdministratora;
 import java.util.List;
 
 /**
@@ -93,17 +95,19 @@ public class KontrolerPL {
         aso.izvrsiSistemskuOperaciju();
     }
     
-    public synchronized static void sacuvajIliAzurirajTrening(Trening trening) {
-        try {
-            aso = new SOZapamtiTrening(trening);
-            aso.izvrsiSistemskuOperaciju();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public synchronized static void sacuvajIliAzurirajTrening(Trening trening) throws Exception {
+        aso = new SOZapamtiTrening(trening);
+        aso.izvrsiSistemskuOperaciju();
+        
     }
     
     public synchronized static void obrisiTrening(Trening trening) throws Exception {
         aso = new SOObrisiTrening(trening);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void pronadjiAdministratora(Ref<Zaposleni> zaposleni) throws Exception {
+        aso = new SOPronadjiAdministratora(zaposleni);
         aso.izvrsiSistemskuOperaciju();
     }
 }

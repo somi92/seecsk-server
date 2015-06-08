@@ -5,6 +5,7 @@
  */
 package com.github.somi92.seecsk.gui;
 
+import com.github.somi92.seecsk.niti.KlijentNit;
 import com.github.somi92.seecsk.niti.ServerNit;
 import com.github.somi92.seecsk.util.Config;
 import com.github.somi92.seecsk.util.Constants;
@@ -12,12 +13,11 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -38,6 +38,7 @@ public class FServer extends javax.swing.JFrame {
         jlstKlijenti.setEnabled(false);
         jlblStatus.setText("Server nije pokrenut.");
         jlblStatus.setForeground(Color.red);
+        jtxtLog.setText("");
     }
 
     /**
@@ -82,7 +83,7 @@ public class FServer extends javax.swing.JFrame {
         jlblStatus = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jtxtLog = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SEECSK - server");
@@ -313,9 +314,12 @@ public class FServer extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Evidencija operacija"));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jtxtLog.setColumns(20);
+        jtxtLog.setFont(new java.awt.Font("DejaVu Sans", 0, 8)); // NOI18N
+        jtxtLog.setLineWrap(true);
+        jtxtLog.setRows(5);
+        jtxtLog.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(jtxtLog);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -432,7 +436,6 @@ public class FServer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton jbtnOdjavi;
     private javax.swing.JButton jbtnPokreni;
     private javax.swing.JButton jbtnZaustavi;
@@ -449,6 +452,7 @@ public class FServer extends javax.swing.JFrame {
     private javax.swing.JLabel jlblURL;
     private javax.swing.JList jlstKlijenti;
     private javax.swing.JPanel jpnlMain;
+    private javax.swing.JTextArea jtxtLog;
     // End of variables declaration//GEN-END:variables
 
     private void pokreniServer() {
@@ -479,11 +483,24 @@ public class FServer extends javax.swing.JFrame {
             jlblImeBaze.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_NAME));
             jlblKorisnik.setText(Config.vratiInstancu().vratiVrednost(Constants.DatabaseConfigKeys.DB_USER));
             
-            serverNit = new ServerNit(Integer.parseInt(Config.vratiInstancu().vratiVrednost(Constants.ServerConfigKeys.SERVER_PORT)));
+            serverNit = new ServerNit(this, Integer.parseInt(Config.vratiInstancu().vratiVrednost(Constants.ServerConfigKeys.SERVER_PORT)));
             serverNit.start();
             
         } catch (UnknownHostException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public void azurirajListu(List<KlijentNit> klijenti) {
+        DefaultListModel<KlijentNit> lm = new DefaultListModel<>();
+        for(KlijentNit kn : klijenti) {
+            lm.addElement(kn);
+        }
+        jlstKlijenti.setModel(lm);
+    }
+    
+    public void azurirajEvidenciju(String text) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        jtxtLog.append(sdf.format(Calendar.getInstance().getTime())+text+'\n');
     }
 }

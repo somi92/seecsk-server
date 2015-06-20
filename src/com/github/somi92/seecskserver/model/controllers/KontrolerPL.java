@@ -8,6 +8,7 @@ package com.github.somi92.seecskserver.model.controllers;
 import com.github.somi92.seecskcommon.domain.Clan;
 import com.github.somi92.seecskcommon.domain.Clanarina;
 import com.github.somi92.seecskcommon.domain.Grupa;
+import com.github.somi92.seecskcommon.domain.Kategorija;
 import com.github.somi92.seecskcommon.domain.Trening;
 import com.github.somi92.seecskcommon.domain.Uplata;
 import com.github.somi92.seecskcommon.domain.Zaposleni;
@@ -23,6 +24,7 @@ import com.github.somi92.seecskserver.model.operations.clanarina.SOZapamtiClanar
 import com.github.somi92.seecskserver.model.operations.grupa.SOKreirajGrupu;
 import com.github.somi92.seecskserver.model.operations.grupa.SOVratiListuGrupa;
 import com.github.somi92.seecskserver.model.operations.grupa.SOZapamtiGrupu;
+import com.github.somi92.seecskserver.model.operations.kategorija.SOVratiListuKategorija;
 import com.github.somi92.seecskserver.model.operations.trening.SOKreirajTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOObrisiTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOPronadjiTreninge;
@@ -79,6 +81,11 @@ public class KontrolerPL {
     
     public synchronized static void vratiListuGrupa(Ref<List<Grupa>> grupe, boolean ucitajListe) throws Exception {
         aso = new SOVratiListuGrupa(grupe, ucitajListe);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void vratiListuKategorija(Ref<List<Kategorija>> kategorije) throws Exception {
+        aso = new SOVratiListuKategorija(kategorije);
         aso.izvrsiSistemskuOperaciju();
     }
     

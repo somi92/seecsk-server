@@ -9,6 +9,7 @@ package com.github.somi92.seecskserver.niti;
 import com.github.somi92.seecskcommon.domain.Clan;
 import com.github.somi92.seecskcommon.domain.Clanarina;
 import com.github.somi92.seecskcommon.domain.Grupa;
+import com.github.somi92.seecskcommon.domain.Kategorija;
 import com.github.somi92.seecskcommon.domain.Trening;
 import com.github.somi92.seecskcommon.domain.Uplata;
 import com.github.somi92.seecskcommon.domain.Zaposleni;
@@ -42,6 +43,7 @@ import com.github.somi92.seecskserver.model.operations.clanarina.SOZapamtiClanar
 import com.github.somi92.seecskserver.model.operations.grupa.SOKreirajGrupu;
 import com.github.somi92.seecskserver.model.operations.grupa.SOVratiListuGrupa;
 import com.github.somi92.seecskserver.model.operations.grupa.SOZapamtiGrupu;
+import com.github.somi92.seecskserver.model.operations.kategorija.SOVratiListuKategorija;
 import com.github.somi92.seecskserver.model.operations.trening.SOKreirajTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOObrisiTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOPronadjiTreninge;
@@ -224,6 +226,14 @@ public class KlijentNit extends Thread {
                     oo.setPodaci(grupeLista);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuGrupa.class.getSimpleName());
+                    break;
+                    
+                case SO_VRATI_LISTU_KATEGORIJA:
+                    Ref<List<Kategorija>> kategorije = zo.getParametar();
+                    KontrolerPL.vratiListuKategorija(kategorije);
+                    oo.setPodaci(kategorije);
+                    oo.setStatusOperacije(0);
+                    ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuKategorija.class.getSimpleName());
                     break;
                     
                 case SO_ZAPAMTI_CLANA:

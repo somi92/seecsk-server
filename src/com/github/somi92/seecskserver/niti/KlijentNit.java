@@ -39,7 +39,9 @@ import com.github.somi92.seecskserver.model.operations.clan.SOVratiListuClanova;
 import com.github.somi92.seecskserver.model.operations.clan.SOZapamtiClana;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOPronadjiClanarine;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOZapamtiClanarine;
+import com.github.somi92.seecskserver.model.operations.grupa.SOKreirajGrupu;
 import com.github.somi92.seecskserver.model.operations.grupa.SOVratiListuGrupa;
+import com.github.somi92.seecskserver.model.operations.grupa.SOZapamtiGrupu;
 import com.github.somi92.seecskserver.model.operations.trening.SOKreirajTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOObrisiTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOPronadjiTreninge;
@@ -200,6 +202,22 @@ public class KlijentNit extends Thread {
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuClanova.class.getSimpleName());
                     break;
                     
+                case SO_KREIRAJ_GRUPU:
+                    Ref<Grupa> grupaRef = zo.getParametar();
+                    KontrolerPL.kreirajGrupu(grupaRef);
+                    oo.setPodaci(grupaRef);
+                    oo.setStatusOperacije(0);
+                    ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOKreirajGrupu.class.getSimpleName());
+                    break;
+                    
+                case SO_ZAPAMTI_GRUPU:
+                    Grupa grupa = zo.getParametar();
+                    KontrolerPL.zapamtiGrupu(grupa);
+                    oo.setPodaci(null);
+                    oo.setStatusOperacije(0);
+                    ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiGrupu.class.getSimpleName());
+                    break;
+                
                 case SO_VRATI_LISTU_GRUPA:
                     Ref<List<Grupa>> grupeLista = zo.getParametar();
                     KontrolerPL.vratiListuGrupa(grupeLista, zo.isUcitajListe());

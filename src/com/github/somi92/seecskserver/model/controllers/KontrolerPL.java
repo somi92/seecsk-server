@@ -20,7 +20,9 @@ import com.github.somi92.seecskserver.model.operations.clan.SOVratiListuClanova;
 import com.github.somi92.seecskserver.model.operations.clan.SOZapamtiClana;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOPronadjiClanarine;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOZapamtiClanarine;
+import com.github.somi92.seecskserver.model.operations.grupa.SOKreirajGrupu;
 import com.github.somi92.seecskserver.model.operations.grupa.SOVratiListuGrupa;
+import com.github.somi92.seecskserver.model.operations.grupa.SOZapamtiGrupu;
 import com.github.somi92.seecskserver.model.operations.trening.SOKreirajTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOObrisiTrening;
 import com.github.somi92.seecskserver.model.operations.trening.SOPronadjiTreninge;
@@ -62,6 +64,16 @@ public class KontrolerPL {
     
     public synchronized static void pronadjiClanove(Ref<List<Clan>> clanovi, List<String> kriterijumPretrage, boolean ucitajListe) throws Exception {
         aso = new SOPronadjiClanove(clanovi, kriterijumPretrage, ucitajListe);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void kreirajGrupu(Ref<Grupa> grupa) throws Exception {
+        aso = new SOKreirajGrupu(grupa);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void zapamtiGrupu(Grupa grupa) throws Exception {
+        aso = new SOZapamtiGrupu(grupa);
         aso.izvrsiSistemskuOperaciju();
     }
     

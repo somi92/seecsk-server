@@ -61,6 +61,9 @@ public class ServerNit extends Thread {
     
     public void zaustaviServer() throws IOException {
         serverSocket.close();
+        for(KlijentNit kn : klijenti) {
+            kn.odjaviKlijenta();
+        }
     }
     
     public synchronized static void dodajKlijenta(KlijentNit kn) {

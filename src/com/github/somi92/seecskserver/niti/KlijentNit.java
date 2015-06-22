@@ -36,6 +36,7 @@ import com.github.somi92.seecskserver.model.controllers.KontrolerPL;
 import com.github.somi92.seecskserver.model.operations.clan.SOKreirajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOObrisiClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOPronadjiClanove;
+import com.github.somi92.seecskserver.model.operations.clan.SOUcitajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOVratiListuClanova;
 import com.github.somi92.seecskserver.model.operations.clan.SOZapamtiClana;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOPronadjiClanarine;
@@ -275,6 +276,14 @@ public class KlijentNit extends Thread {
                         userName = "!nepoznat_korisnik!";
 //                        ServerNit.obrisiKlijenta(this);
                     }
+                    break;
+                    
+                case SO_UCITAJ_CLANA:
+                    Ref<Clan> clanUcitaj = zo.getParametar();
+                    KontrolerPL.ucitajClana(clanUcitaj);
+                    oo.setPodaci(clanUcitaj);
+                    oo.setStatusOperacije(0);
+                    ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOUcitajClana.class.getSimpleName());
                     break;
             }
         } catch (Exception ex) {

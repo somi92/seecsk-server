@@ -17,6 +17,7 @@ import com.github.somi92.seecskcommon.util.Ref;
 import com.github.somi92.seecskserver.model.operations.clan.SOKreirajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOObrisiClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOPronadjiClanove;
+import com.github.somi92.seecskserver.model.operations.clan.SOUcitajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOVratiListuClanova;
 import com.github.somi92.seecskserver.model.operations.clan.SOZapamtiClana;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOPronadjiClanarine;
@@ -127,6 +128,11 @@ public class KontrolerPL {
     
     public synchronized static void pronadjiAdministratora(Ref<Zaposleni> zaposleni) throws Exception {
         aso = new SOPronadjiAdministratora(zaposleni);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void ucitajClana(Ref<Clan> clan) throws Exception {
+        aso = new SOUcitajClana(clan);
         aso.izvrsiSistemskuOperaciju();
     }
 }

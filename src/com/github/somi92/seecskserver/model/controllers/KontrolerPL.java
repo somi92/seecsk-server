@@ -20,6 +20,7 @@ import com.github.somi92.seecskserver.model.operations.clan.SOPronadjiClanove;
 import com.github.somi92.seecskserver.model.operations.clan.SOUcitajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOVratiListuClanova;
 import com.github.somi92.seecskserver.model.operations.clan.SOZapamtiClana;
+import com.github.somi92.seecskserver.model.operations.clanarina.SOKreirajClanarinu;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOPronadjiClanarine;
 import com.github.somi92.seecskserver.model.operations.clanarina.SOZapamtiClanarine;
 import com.github.somi92.seecskserver.model.operations.grupa.SOKreirajGrupu;
@@ -133,6 +134,11 @@ public class KontrolerPL {
     
     public synchronized static void ucitajClana(Ref<Clan> clan) throws Exception {
         aso = new SOUcitajClana(clan);
+        aso.izvrsiSistemskuOperaciju();
+    }
+    
+    public synchronized static void kreirajClanarinu(Ref<Clanarina> clanarina) throws Exception {
+        aso = new SOKreirajClanarinu(clanarina);
         aso.izvrsiSistemskuOperaciju();
     }
 }

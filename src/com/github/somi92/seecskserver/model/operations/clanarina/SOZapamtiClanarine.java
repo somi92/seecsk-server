@@ -20,11 +20,16 @@ import java.util.List;
 public class SOZapamtiClanarine extends ApstraktnaSistemskaOperacija {
     
     private List<Uplata> uplate;
+    private List<Uplata> uplateBrisanje;
     
     public SOZapamtiClanarine(List<Uplata> uplate) {
         this.uplate = uplate;
     }
  
+    public void postaviUplateZaBrisanje(List<Uplata> uplateBrisanje) {
+        this.uplateBrisanje = uplateBrisanje;
+    }
+    
     @Override
     protected void izvrsiValidaciju() throws ValidacijaException {
         
@@ -38,6 +43,11 @@ public class SOZapamtiClanarine extends ApstraktnaSistemskaOperacija {
     @Override
     protected void izvrsiDBTransakciju() throws SOException {
         try {
+            if(uplateBrisanje != null && uplateBrisanje.size()>0) {
+                for(Uplata u : uplateBrisanje) {
+                    dbbroker.deleteEntity(u);
+                }
+            } 
             for(Uplata u : uplate) {
                 dbbroker.saveOrUpdateEntity(u);
             }

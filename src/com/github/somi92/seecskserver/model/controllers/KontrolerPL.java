@@ -97,8 +97,10 @@ public class KontrolerPL {
         aso.izvrsiSistemskuOperaciju();
     }
     
-    public synchronized static void zapamtiClanarine(List<Uplata> clanarine) throws Exception {
-        aso = new SOZapamtiClanarine(clanarine);
+    public synchronized static void zapamtiClanarine(List<Uplata> clanarine, List<Uplata> uplateZaBrisanje) throws Exception {
+        SOZapamtiClanarine zc = new SOZapamtiClanarine(clanarine);
+        zc.postaviUplateZaBrisanje(uplateZaBrisanje);
+        aso = zc;
         aso.izvrsiSistemskuOperaciju();
     }
     

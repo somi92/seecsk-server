@@ -249,7 +249,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_ZAPAMTI_CLANARINE:
                     List<Uplata> clanarineZapamti = zo.getParametar();
-                    KontrolerPL.zapamtiClanarine(clanarineZapamti);
+                    KontrolerPL.zapamtiClanarine(clanarineZapamti, zo.getUplateZaBrisanje());
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiClanarine.class.getSimpleName());

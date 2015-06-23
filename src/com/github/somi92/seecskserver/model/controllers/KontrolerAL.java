@@ -40,7 +40,7 @@ import java.util.List;
  *
  * @author milos
  */
-public class KontrolerPL {
+public class KontrolerAL {
     
     private static ApstraktnaSistemskaOperacija aso;
     

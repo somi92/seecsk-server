@@ -32,7 +32,7 @@ import static com.github.somi92.seecskcommon.util.SistemskeOperacije.SO_VRATI_LI
 import static com.github.somi92.seecskcommon.util.SistemskeOperacije.SO_ZAPAMTI_CLANA;
 import static com.github.somi92.seecskcommon.util.SistemskeOperacije.SO_ZAPAMTI_CLANARINE;
 import static com.github.somi92.seecskcommon.util.SistemskeOperacije.SO_ZAPAMTI_TRENING;
-import com.github.somi92.seecskserver.model.controllers.KontrolerPL;
+import com.github.somi92.seecskserver.model.controllers.KontrolerAL;
 import com.github.somi92.seecskserver.model.operations.clan.SOKreirajClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOObrisiClana;
 import com.github.somi92.seecskserver.model.operations.clan.SOPronadjiClanove;
@@ -133,7 +133,7 @@ public class KlijentNit extends Thread {
                 
                 case SO_KREIRAJ_CLANA:
                     Ref<Clan> refClanKreiraj = zo.getParametar();
-                    KontrolerPL.kreirajClana(refClanKreiraj);
+                    KontrolerAL.kreirajClana(refClanKreiraj);
                     oo.setPodaci(refClanKreiraj);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOKreirajClana.class.getSimpleName());
@@ -141,7 +141,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_KREIRAJ_TRENING:
                     Ref<Trening> refTrening = zo.getParametar();
-                    KontrolerPL.kreirajTrening(refTrening);
+                    KontrolerAL.kreirajTrening(refTrening);
                     oo.setPodaci(refTrening);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOKreirajTrening.class.getSimpleName());
@@ -149,7 +149,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_OBRISI_CLANA:
                     Clan clanObrisi = zo.getParametar();
-                    KontrolerPL.obrisiClana(clanObrisi);
+                    KontrolerAL.obrisiClana(clanObrisi);
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOObrisiClana.class.getSimpleName());
@@ -157,7 +157,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_OBRISI_TRENING:
                     Trening treningObrisi = zo.getParametar();
-                    KontrolerPL.obrisiTrening(treningObrisi);
+                    KontrolerAL.obrisiTrening(treningObrisi);
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOObrisiTrening.class.getSimpleName());
@@ -169,7 +169,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_PRONADJI_CLANARINE:
                     Ref<List<Clanarina>> clanarinePronadji = zo.getParametar();
-                    KontrolerPL.vratiClanarine(clanarinePronadji, zo.getKriterijumPretrage(), zo.isUcitajListe());
+                    KontrolerAL.vratiClanarine(clanarinePronadji, zo.getKriterijumPretrage(), zo.isUcitajListe());
                     oo.setPodaci(clanarinePronadji);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOPronadjiClanarine.class.getSimpleName());
@@ -177,7 +177,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_PRONADJI_CLANOVE:
                     Ref<List<Clan>> clanoviPronadji = zo.getParametar();
-                    KontrolerPL.pronadjiClanove(clanoviPronadji, zo.getKriterijumPretrage(), zo.isUcitajListe());
+                    KontrolerAL.pronadjiClanove(clanoviPronadji, zo.getKriterijumPretrage(), zo.isUcitajListe());
                     oo.setPodaci(clanoviPronadji);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOPronadjiClanove.class.getSimpleName());
@@ -185,7 +185,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_PRONADJI_TRENINGE:
                     Ref<List<Trening>> treninziPronadji = zo.getParametar();
-                    KontrolerPL.vratiTreninge(treninziPronadji, zo.getKriterijumPretrage());
+                    KontrolerAL.vratiTreninge(treninziPronadji, zo.getKriterijumPretrage());
                     oo.setPodaci(treninziPronadji);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOPronadjiTreninge.class.getSimpleName());
@@ -193,7 +193,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_UCITAJ_TRENING:
                     Ref<Trening> treningUcitaj = zo.getParametar();
-                    KontrolerPL.ucitajTrening(treningUcitaj);
+                    KontrolerAL.ucitajTrening(treningUcitaj);
                     oo.setPodaci(treningUcitaj);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOUcitajTrening.class.getSimpleName());
@@ -201,7 +201,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_VRATI_LISTU_CLANOVA:
                     Ref<List<Clan>> clanoviLista = zo.getParametar();
-                    KontrolerPL.vratiListuClanova(clanoviLista, zo.isUcitajListe());
+                    KontrolerAL.vratiListuClanova(clanoviLista, zo.isUcitajListe());
                     oo.setPodaci(clanoviLista);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuClanova.class.getSimpleName());
@@ -209,7 +209,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_KREIRAJ_GRUPU:
                     Ref<Grupa> grupaRef = zo.getParametar();
-                    KontrolerPL.kreirajGrupu(grupaRef);
+                    KontrolerAL.kreirajGrupu(grupaRef);
                     oo.setPodaci(grupaRef);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOKreirajGrupu.class.getSimpleName());
@@ -217,7 +217,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_ZAPAMTI_GRUPU:
                     Grupa grupa = zo.getParametar();
-                    KontrolerPL.zapamtiGrupu(grupa);
+                    KontrolerAL.zapamtiGrupu(grupa);
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiGrupu.class.getSimpleName());
@@ -225,7 +225,7 @@ public class KlijentNit extends Thread {
                 
                 case SO_VRATI_LISTU_GRUPA:
                     Ref<List<Grupa>> grupeLista = zo.getParametar();
-                    KontrolerPL.vratiListuGrupa(grupeLista, zo.isUcitajListe());
+                    KontrolerAL.vratiListuGrupa(grupeLista, zo.isUcitajListe());
                     oo.setPodaci(grupeLista);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuGrupa.class.getSimpleName());
@@ -233,7 +233,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_VRATI_LISTU_KATEGORIJA:
                     Ref<List<Kategorija>> kategorije = zo.getParametar();
-                    KontrolerPL.vratiListuKategorija(kategorije);
+                    KontrolerAL.vratiListuKategorija(kategorije);
                     oo.setPodaci(kategorije);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOVratiListuKategorija.class.getSimpleName());
@@ -241,7 +241,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_ZAPAMTI_CLANA:
                     Clan clanZapamti = zo.getParametar();
-                    KontrolerPL.sacuvajIliAzurirajClana(clanZapamti, zo.getUplateZaBrisanje());
+                    KontrolerAL.sacuvajIliAzurirajClana(clanZapamti, zo.getUplateZaBrisanje());
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiClana.class.getSimpleName());
@@ -249,7 +249,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_ZAPAMTI_CLANARINE:
                     List<Uplata> clanarineZapamti = zo.getParametar();
-                    KontrolerPL.zapamtiClanarine(clanarineZapamti, zo.getUplateZaBrisanje());
+                    KontrolerAL.zapamtiClanarine(clanarineZapamti, zo.getUplateZaBrisanje());
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiClanarine.class.getSimpleName());
@@ -257,7 +257,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_ZAPAMTI_TRENING:
                     Trening treningZapamti = zo.getParametar();
-                    KontrolerPL.sacuvajIliAzurirajTrening(treningZapamti);
+                    KontrolerAL.sacuvajIliAzurirajTrening(treningZapamti);
                     oo.setPodaci(null);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOZapamtiTrening.class.getSimpleName());
@@ -265,7 +265,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_PRONADJI_ADMINISTRATORA:
                     Ref<Zaposleni> zaposleni = zo.getParametar();
-                    KontrolerPL.pronadjiAdministratora(zaposleni);
+                    KontrolerAL.pronadjiAdministratora(zaposleni);
                     oo.setPodaci(zaposleni);
                     if(zaposleni.get()!=null) {
                         verified = true;
@@ -282,7 +282,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_UCITAJ_CLANA:
                     Ref<Clan> clanUcitaj = zo.getParametar();
-                    KontrolerPL.ucitajClana(clanUcitaj);
+                    KontrolerAL.ucitajClana(clanUcitaj);
                     oo.setPodaci(clanUcitaj);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOUcitajClana.class.getSimpleName());
@@ -290,7 +290,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_KREIRAJ_CLANARINU:
                     Ref<Clanarina> clanarinaKreiraj = zo.getParametar();
-                    KontrolerPL.kreirajClanarinu(clanarinaKreiraj);
+                    KontrolerAL.kreirajClanarinu(clanarinaKreiraj);
                     oo.setPodaci(clanarinaKreiraj);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOKreirajClanarinu.class.getSimpleName());
@@ -298,7 +298,7 @@ public class KlijentNit extends Thread {
                     
                 case SO_UCITAJ_CLANARINU:
                     Ref<Clanarina> clanarinaUcitaj = zo.getParametar();
-                    KontrolerPL.ucitajClanarinu(clanarinaUcitaj);
+                    KontrolerAL.ucitajClanarinu(clanarinaUcitaj);
                     oo.setPodaci(clanarinaUcitaj);
                     oo.setStatusOperacije(0);
                     ServerNit.azurirajEvidenciju("<"+userName+">: operacija "+SOUcitajClanarinu.class.getSimpleName());
